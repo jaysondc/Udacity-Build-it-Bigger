@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -72,12 +73,12 @@ public class MainActivity extends AppCompatActivity {
         new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
     }
 
-    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, String> {
+    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke> {
         private MyApi myApiService = null;
         private Context context;
 
         @Override
-        protected String doInBackground(Pair<Context, String>... params) {
+        protected com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke doInBackground(Pair<Context, String>... params) {
             if(myApiService == null) {  // Only do this once
                 MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
                         new AndroidJsonFactory(), null)
@@ -100,15 +101,16 @@ public class MainActivity extends AppCompatActivity {
             String name = params[0].second;
 
             try {
-                return myApiService.getJoke().execute().getSetup();
+                return myApiService.getJoke().execute();
             } catch (IOException e) {
-                return e.getMessage();
+                Log.d(getClass().getSimpleName(), e.getMessage());
+                return null;
             }
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            Toast.makeText(context, result, Toast.LENGTH_LONG).show();
+        protected void onPostExecute(com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke result) {
+            Toast.makeText(context, result.getSetup(), Toast.LENGTH_LONG).show();
         }
     }
 

@@ -1,3 +1,4 @@
+import com.example.Joke;
 import com.example.JokeGenerator;
 
 import org.junit.Test;
@@ -14,8 +15,7 @@ public class JokesmithTests {
     @Test
     public void jokeValidator(){
         JokeGenerator jokeGen = new JokeGenerator();
-        String[] joke = jokeGen.getJoke();
-        assertNotNull(joke[0]);
-        assertNotNull(joke[1]);
+        Joke joke = jokeGen.getJoke();
+        assertNotNull(joke);
     }
 }
