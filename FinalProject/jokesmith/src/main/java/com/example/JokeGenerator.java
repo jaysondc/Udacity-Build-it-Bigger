@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.ArrayList;
-
 public class JokeGenerator {
 
     String setups[] = {
@@ -20,9 +18,9 @@ public class JokeGenerator {
             "Look for the fresh prints."
     };
 
-    public String[] getJoke(){
+    public com.example.Joke getJoke(){
         int i = (int) Math.floor(Math.random() * setups.length);
 
-        return new String[] {setups[i], punchlines[i]};
+        return new com.example.Joke(setups[i], punchlines[i]);
     }
 }
