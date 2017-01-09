@@ -26,9 +26,6 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
-    public final String EXTRA_SETUP = "EXTRA_SETUP";
-    public final String EXTRA_PUNCHLINE = "EXTRA_PUNCHLINE";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,59 +56,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-//        JokeGenerator jokeGen = new JokeGenerator();
-//        String[] joke = jokeGen.getJoke();
-//
-//        // Pass joke as extras and launch display
-//        Intent intent = new Intent(this, JokeMain.class);
-//        intent.putExtra(EXTRA_SETUP, joke[0]);
-//        intent.putExtra(EXTRA_PUNCHLINE, joke[1]);
-//
-//        startActivity(intent);
-
         // Get joke from GCM
-        new EndpointsAsyncTask().execute(new Pair<Context, String>(this, "Manfred"));
+        new JokeAsyncTask().execute(this);
     }
 
-    class EndpointsAsyncTask extends AsyncTask<Pair<Context, String>, Void, com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke> {
-        private MyApi myApiService = null;
-        private Context context;
-
-        @Override
-        protected com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke doInBackground(Pair<Context, String>... params) {
-            if(myApiService == null) {  // Only do this once
-                MyApi.Builder builder = new MyApi.Builder(AndroidHttp.newCompatibleTransport(),
-                        new AndroidJsonFactory(), null)
-                        // options for running against local devappserver
-                        // - 10.0.2.2 is localhost's IP address in Android emulator
-                        // - turn off compression when running against local devappserver
-                        .setRootUrl("http://10.0.2.2:8080/_ah/api/")
-                        .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
-                            @Override
-                            public void initialize(AbstractGoogleClientRequest<?> abstractGoogleClientRequest) throws IOException {
-                                abstractGoogleClientRequest.setDisableGZipContent(true);
-                            }
-                        });
-                // end options for devappserver
-
-                myApiService = builder.build();
-            }
-
-            context = params[0].first;
-            String name = params[0].second;
-
-            try {
-                return myApiService.getJoke().execute();
-            } catch (IOException e) {
-                Log.d(getClass().getSimpleName(), e.getMessage());
-                return null;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke result) {
-            Toast.makeText(context, result.getSetup(), Toast.LENGTH_LONG).show();
-        }
-    }
 
 }
