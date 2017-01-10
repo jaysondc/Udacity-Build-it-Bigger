@@ -24,13 +24,15 @@ public class AppTests{
 
     @Test
     public void testAsyncJokeTask() throws Throwable{
-
+        try {
             JokeAsyncTask jokeTask = new JokeAsyncTask();
             Joke joke = jokeTask.execute().get(30, TimeUnit.SECONDS);
 
             assertNotNull(joke);
             assertNotNull(joke.getSetup());
             assertNotNull(joke.getPunchline());
-
+        } catch (Exception e){
+            fail("Timeout");
+        }
     }
 }
