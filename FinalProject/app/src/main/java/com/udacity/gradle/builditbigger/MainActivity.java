@@ -1,9 +1,12 @@
 package com.udacity.gradle.builditbigger;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -23,6 +26,8 @@ import com.google.api.client.googleapis.services.GoogleClientRequestInitializer;
 
 import java.io.IOException;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,13 +35,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        // getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -56,8 +62,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void tellJoke(View view) {
-        // Get joke from GCM
+        // Get joke from GCM and show loading icon
+        final CircularProgressBar progressIndicator =
+                (CircularProgressBar) findViewById(R.id.progress_indicator);
+        progressIndicator.setVisibility(View.VISIBLE);
+
         new JokeAsyncTask().execute(this);
+
+        // Create broadcast receiver to be notified when the joke is done loading
+        BroadcastReceiver br = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                progressIndicator.setVisibility(View.GONE);
+            }
+        };
+        LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
+        lbm.registerReceiver(br, new IntentFilter("joke_loaded"));
     }
 
 

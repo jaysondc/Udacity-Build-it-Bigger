@@ -1,6 +1,7 @@
 package com.example.jokedisplay;
 
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -14,6 +15,10 @@ public class JokeMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_main);
+
+        // Send broadcast to notify calling activity that we've loaded the joke
+        Intent broadcastIntent = new Intent("joke_loaded");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
 
         // Retrieve extras
         Intent intent = getIntent();
