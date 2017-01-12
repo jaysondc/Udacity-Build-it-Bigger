@@ -16,6 +16,8 @@ public class JokeMain extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joke_main);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Send broadcast to notify calling activity that we've loaded the joke
         Intent broadcastIntent = new Intent("joke_loaded");
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);

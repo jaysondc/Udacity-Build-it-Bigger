@@ -14,6 +14,7 @@
         android:id="@+id/setupText"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
+        style="@android:style/TextAppearance.Material.Headline"
         tools:text="Here is a joke setup."/>
 
     <TextView
@@ -21,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         tools:text="Here is a joke punchline."
-        android:layout_below="@+id/setupText"/>
+        style="@android:style/TextAppearance.Material.Headline"
+        android:layout_centerVertical="true"/>
 
 </RelativeLayout>
