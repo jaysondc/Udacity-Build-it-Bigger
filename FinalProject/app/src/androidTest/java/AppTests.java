@@ -20,6 +20,7 @@ import static junit.framework.TestCase.assertNotNull;
  * Created by Jayson Dela Cruz on 1/9/2017.
  */
 
+@android.support.test.filters.SmallTest
 public class AppTests{
 
     @Test

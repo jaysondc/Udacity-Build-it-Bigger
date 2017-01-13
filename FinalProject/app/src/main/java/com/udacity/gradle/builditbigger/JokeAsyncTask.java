@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.jaysondelacruz.myapplication.jokesbackend.myApi.MyApi;
 import com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke;
@@ -60,14 +61,23 @@ public class JokeAsyncTask extends AsyncTask<Context, Void, Joke> {
 
     @Override
     protected void onPostExecute(com.example.jaysondelacruz.myapplication.jokesbackend.myApi.model.Joke result) {
+        // If server timed out display a message
+        if(result == null){
+            Toast.makeText(context, "Connection timed out.", Toast.LENGTH_LONG).show();
 
-        // Pass joke as extras and launch display only if context is provided
-        if(context != null){
-            Intent intent = new Intent(context, JokeMain.class);
-            intent.putExtra(EXTRA_SETUP, result.getSetup());
-            intent.putExtra(EXTRA_PUNCHLINE, result.getPunchline());
+            // Send a broadcast to hide the loading indicator
+            Intent broadcastIntent = new Intent("hide_progress_indicator");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(broadcastIntent);
+        } else {
+            // Pass joke as extras and launch display only if context is provided
+            if(context != null){
+                Intent intent = new Intent(context, JokeMain.class);
+                intent.putExtra(EXTRA_SETUP, result.getSetup());
+                intent.putExtra(EXTRA_PUNCHLINE, result.getPunchline());
 
-            context.startActivity(intent);
+                context.startActivity(intent);
+            }
         }
+
     }
 }

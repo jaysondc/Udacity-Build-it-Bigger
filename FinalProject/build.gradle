@@ -16,3 +16,13 @@ allprojects {
         jcenter()
     }
 }
+
+// Start the joke server, run all connected tests, then shut down the server.
+task startServerThenTestApp (dependsOn: [":jokesbackend:appengineRun", "jokesbackend:appengineStop", ":app:connectedAndroidTest"]) {
+    project(":jokesbackend").afterEvaluate { jokesbackend ->
+        jokesbackend.extensions.appengine.daemon = true
+    }
+
+    tasks.getByPath(":app:connectedAndroidTest") mustRunAfter tasks.getByPath(":jokesbackend:appengineRun")
+    tasks.getByPath(":jokesbackend:appengineStop") mustRunAfter tasks.getByPath(":app:connectedAndroidTest")
+}

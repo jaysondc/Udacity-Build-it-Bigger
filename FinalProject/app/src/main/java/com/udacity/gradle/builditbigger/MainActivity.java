@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         LocalBroadcastManager lbm = LocalBroadcastManager.getInstance(this);
-        lbm.registerReceiver(br, new IntentFilter("joke_loaded"));
+        lbm.registerReceiver(br, new IntentFilter("hide_progress_indicator"));
     }
 
 

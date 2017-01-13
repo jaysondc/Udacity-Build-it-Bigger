@@ -19,7 +19,7 @@ public class JokeMain extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Send broadcast to notify calling activity that we've loaded the joke
-        Intent broadcastIntent = new Intent("joke_loaded");
+        Intent broadcastIntent = new Intent("hide_progress_indicator");
         LocalBroadcastManager.getInstance(this).sendBroadcast(broadcastIntent);
 
         // Retrieve extras

@@ -31,18 +31,18 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     compile project(':jokesmith')
     compile project(':jokedisplay')
     compile 'com.android.support:appcompat-v7:25.1.0'
-    freeCompile 'com.google.android.gms:play-services-ads:10.0.1'
     compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0' // progress bar
     compile 'com.google.code.findbugs:jsr305:2.0.1'
     compile project(path: ':jokesbackend', configuration: 'android-endpoints')
+    freeCompile 'com.google.android.gms:play-services-ads:10.0.1'
 
     // Testing dependencies
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support:support-annotations:25.1.0'
     androidTestCompile 'com.android.support.test:runner:0.5'
